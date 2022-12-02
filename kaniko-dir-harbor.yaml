@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko-harbor
+spec:
+  containers:
+  - name: kaniko
+    image: ghostwritten/kaniko-project-executor:latest
+    args: ["--dockerfile=/workspace/Dockerfile",
+            "--context=dir://workspace",
+            #"--skip-tls-verify",
+            "--destination=harbor.fumai.com/library/devops-toolkit:1.0.1"]
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
+      - name: workspace
+        mountPath: /workspace
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: harbor-regcred
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+    - name: workspace
+      hostPath: 
+        path: /root/kaniko/kaniko-demo 

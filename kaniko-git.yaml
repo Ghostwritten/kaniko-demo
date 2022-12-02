@@ -7,9 +7,10 @@ metadata:
 spec:
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    args: ["--context=git://github.com/vfarcic/kaniko-demo",
-            "--destination=vfarcic/devops-toolkit:1.0.0"]
+    #image: gcr.io/kaniko-project/executor:debug
+    image: ghostwritten/kaniko-project-executor:debug 
+    args: ["--context=git://github.com/ghostwritten/kaniko-demo",
+            "--destination=ghostwritten/devops-toolkit:1.0.0"]
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker
